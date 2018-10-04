@@ -17,7 +17,8 @@ const (
 	MENU_CHART    = 2
 	MENU_NEWS     = 3
 	MENU_TOSHI    = 4
-	MENU_NOTICE   = 5
+	MENU_ACCOUNT  = 5
+	MENU_NOTICE   = 6
 )
 
 var (
