@@ -55,6 +55,15 @@ func UpdScn() {
 
 	//		draw.Draw(App.outScn.Win, *App.baseScn.Rc, App.baseScn.Win, ZP, draw.Src)
 	copy(App.outScn.Win.Pix, App.baseScn.Win.Pix)
+
+	switch App.selMMenu {
+	case cn.MENU_BOARD:
+	case cn.MENU_MV_ASSET:
+	case cn.MENU_CHART:
+	case cn.MENU_NEWS:
+	case cn.MENU_TOSHI:
+	case cn.MENU_NOTICE:
+	}
 	App.outScn.DrawMMenuCont(0, 0)                               //メインメニュー(TODO 高速化可能＜outScnでほとんどを書く)
 	App.outScn.DrawEqBalCont(GetTestDataEquityBalances(), 0, 50) //株式残高
 	App.outScn.DrawChartCont(50, 350)                            //チャート

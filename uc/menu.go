@@ -11,12 +11,12 @@ import (
 
 var (
 	btn = map[int]*Button{
-		BOARD:    {dispRc: image.Rect(50, 0, 100, 50), imgRc: image.Rect(0, 0, 50, 50), imgOn: tl.LoadImg("btn_board_off.jpg"), imgOff: tl.LoadImg("btn_board_on.jpg"), pressed: false},
-		CHART:    {dispRc: image.Rect(110, 0, 160, 50), imgRc: image.Rect(0, 0, 50, 50), imgOn: tl.LoadImg("btn_chart_off.jpg"), imgOff: tl.LoadImg("btn_chart_on.jpg"), pressed: false},
-		MV_ASSET: {dispRc: image.Rect(170, 0, 220, 50), imgRc: image.Rect(0, 0, 50, 50), imgOn: tl.LoadImg("btn_board_off.jpg"), imgOff: tl.LoadImg("btn_board_on.jpg"), pressed: false},
-		NEWS:     {dispRc: image.Rect(230, 0, 280, 50), imgRc: image.Rect(0, 0, 50, 50), imgOn: tl.LoadImg("btn_news_off.jpg"), imgOff: tl.LoadImg("btn_news_on.jpg"), pressed: false},
-		TOSHI:    {dispRc: image.Rect(290, 0, 340, 50), imgRc: image.Rect(0, 0, 50, 50), imgOn: tl.LoadImg("btn_toshi_off.jpg"), imgOff: tl.LoadImg("btn_toshi_on.jpg"), pressed: false},
-		NOTICE:   {dispRc: image.Rect(350, 0, 400, 50), imgRc: image.Rect(0, 0, 50, 50), imgOn: tl.LoadImg("btn_notice_off.jpg"), imgOff: tl.LoadImg("btn_notice_on.jpg"), pressed: false},
+		cn.MENU_BOARD:    {dispRc: image.Rect(50, 0, 100, 50), imgRc: image.Rect(0, 0, 50, 50), imgOn: tl.LoadImg("btn_board_off.jpg"), imgOff: tl.LoadImg("btn_board_on.jpg"), pressed: false},
+		cn.MENU_CHART:    {dispRc: image.Rect(110, 0, 160, 50), imgRc: image.Rect(0, 0, 50, 50), imgOn: tl.LoadImg("btn_chart_off.jpg"), imgOff: tl.LoadImg("btn_chart_on.jpg"), pressed: false},
+		cn.MENU_MV_ASSET: {dispRc: image.Rect(170, 0, 220, 50), imgRc: image.Rect(0, 0, 50, 50), imgOn: tl.LoadImg("btn_board_off.jpg"), imgOff: tl.LoadImg("btn_board_on.jpg"), pressed: false},
+		cn.MENU_NEWS:     {dispRc: image.Rect(230, 0, 280, 50), imgRc: image.Rect(0, 0, 50, 50), imgOn: tl.LoadImg("btn_news_off.jpg"), imgOff: tl.LoadImg("btn_news_on.jpg"), pressed: false},
+		cn.MENU_TOSHI:    {dispRc: image.Rect(290, 0, 340, 50), imgRc: image.Rect(0, 0, 50, 50), imgOn: tl.LoadImg("btn_toshi_off.jpg"), imgOff: tl.LoadImg("btn_toshi_on.jpg"), pressed: false},
+		cn.MENU_NOTICE:   {dispRc: image.Rect(350, 0, 400, 50), imgRc: image.Rect(0, 0, 50, 50), imgOn: tl.LoadImg("btn_notice_off.jpg"), imgOff: tl.LoadImg("btn_notice_on.jpg"), pressed: false},
 	}
 	imgOnMouse = tl.LoadImg("btn_on_mouse.jpg")
 	imgSel     = tl.LoadImg("btn_selected.jpg")
@@ -32,7 +32,7 @@ type Button struct {
 
 func (w *Window) DrawMMenuFrame() {
 
-	//	logo := tl.LoadImg("smartplus_log0.jpg")
+	//	logo := tl.LoadImg("log0.jpg")
 	//	draw.Draw(w.Win, image.Rect(2, 2, 2+logo.Bounds().Dx(), 2+logo.Bounds().Dy()), logo, cn.ZP, draw.Src) //ロゴ
 
 	/*	   mainMenu := tl.LoadImg("main_menu.jpg")	*/
