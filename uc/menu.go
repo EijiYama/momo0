@@ -13,10 +13,11 @@ var (
 	btn = map[int]*Button{
 		cn.MENU_BOARD:    {dispRc: image.Rect(50, 0, 100, 50), imgRc: image.Rect(0, 0, 50, 50), imgOn: tl.LoadImg("btn_board_off.jpg"), imgOff: tl.LoadImg("btn_board_on.jpg"), pressed: false},
 		cn.MENU_CHART:    {dispRc: image.Rect(110, 0, 160, 50), imgRc: image.Rect(0, 0, 50, 50), imgOn: tl.LoadImg("btn_chart_off.jpg"), imgOff: tl.LoadImg("btn_chart_on.jpg"), pressed: false},
-		cn.MENU_MV_ASSET: {dispRc: image.Rect(170, 0, 220, 50), imgRc: image.Rect(0, 0, 50, 50), imgOn: tl.LoadImg("btn_board_off.jpg"), imgOff: tl.LoadImg("btn_board_on.jpg"), pressed: false},
+		cn.MENU_MV_ASSET: {dispRc: image.Rect(170, 0, 220, 50), imgRc: image.Rect(0, 0, 50, 50), imgOn: tl.LoadImg("btn_mv_asset_off.jpg"), imgOff: tl.LoadImg("btn_mv_asset_on.jpg"), pressed: false},
 		cn.MENU_NEWS:     {dispRc: image.Rect(230, 0, 280, 50), imgRc: image.Rect(0, 0, 50, 50), imgOn: tl.LoadImg("btn_news_off.jpg"), imgOff: tl.LoadImg("btn_news_on.jpg"), pressed: false},
 		cn.MENU_TOSHI:    {dispRc: image.Rect(290, 0, 340, 50), imgRc: image.Rect(0, 0, 50, 50), imgOn: tl.LoadImg("btn_toshi_off.jpg"), imgOff: tl.LoadImg("btn_toshi_on.jpg"), pressed: false},
-		cn.MENU_NOTICE:   {dispRc: image.Rect(350, 0, 400, 50), imgRc: image.Rect(0, 0, 50, 50), imgOn: tl.LoadImg("btn_notice_off.jpg"), imgOff: tl.LoadImg("btn_notice_on.jpg"), pressed: false},
+		cn.MENU_ACCOUNT:  {dispRc: image.Rect(350, 0, 400, 50), imgRc: image.Rect(0, 0, 50, 50), imgOn: tl.LoadImg("btn_account_off.jpg"), imgOff: tl.LoadImg("btn_account_on.jpg"), pressed: false},
+		cn.MENU_NOTICE:   {dispRc: image.Rect(410, 0, 460, 50), imgRc: image.Rect(0, 0, 50, 50), imgOn: tl.LoadImg("btn_notice_off.jpg"), imgOff: tl.LoadImg("btn_notice_on.jpg"), pressed: false},
 	}
 	imgOnMouse = tl.LoadImg("btn_on_mouse.jpg")
 	imgSel     = tl.LoadImg("btn_selected.jpg")

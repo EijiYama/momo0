@@ -64,9 +64,9 @@ func UpdScn() {
 		App.outScn.DrawChartCont(0, 50) //チャート
 	case cn.MENU_NEWS:
 	case cn.MENU_TOSHI:
-	case cn.MENU_NOTICE:
 	case cn.MENU_ACCOUNT:
 		App.outScn.DrawEqBalCont(GetTestDataEquityBalances(), 0, 50) //株式残高
+	case cn.MENU_NOTICE:
 	}
 
 	App.outScn.DrawSystemInfo(nowTime)
