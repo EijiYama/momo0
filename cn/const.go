@@ -11,6 +11,14 @@ const (
 	WINTYPE_TYPE1      = "WINTYPE_TYPE1"
 	WINTYPE_TYPE2      = "WINTYPE_TYPE2"
 )
+const (
+	MENU_BOARD    = 0
+	MENU_MV_ASSET = 1
+	MENU_CHART    = 2
+	MENU_NEWS     = 3
+	MENU_TOSHI    = 4
+	MENU_NOTICE   = 5
+)
 
 var (
 	ColDefBg = color.RGBA{0x20, 0x24, 0x2a, 0xff}

@@ -22,15 +22,6 @@ var (
 	imgSel     = tl.LoadImg("btn_selected.jpg")
 )
 
-const (
-	BOARD    = 0
-	MV_ASSET = 1
-	CHART    = 2
-	NEWS     = 3
-	TOSHI    = 4
-	NOTICE   = 5
-)
-
 type Button struct {
 	pressed bool
 	imgRc   image.Rectangle
