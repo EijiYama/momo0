@@ -1,0 +1,50 @@
+hash: 777bfec784c0915e11e3c186fb4a63c4e0e2966155ed511339f6592c9d9c0621
+updated: 2018-10-04T17:01:36.8370438+09:00
+imports:
+- name: github.com/BurntSushi/xgb
+  version: 27f122750802c950b2c869a5b63dafcf590ced95
+  subpackages:
+  - render
+  - shm
+  - xproto
+- name: github.com/golang/freetype
+  version: e2365dfdc4a05e4b8299a783240d4a7d5a65d4e4
+  subpackages:
+  - raster
+  - truetype
+- name: golang.org/x/exp
+  version: e88728d35e99800368f4acc0969018db6b0d3dd5
+  subpackages:
+  - shiny/driver
+  - shiny/driver/gldriver
+  - shiny/driver/internal/drawer
+  - shiny/driver/internal/errscreen
+  - shiny/driver/internal/event
+  - shiny/driver/internal/lifecycler
+  - shiny/driver/internal/swizzle
+  - shiny/driver/internal/win32
+  - shiny/driver/internal/x11key
+  - shiny/driver/windriver
+  - shiny/driver/x11driver
+  - shiny/screen
+- name: golang.org/x/image
+  version: 991ec62608f3c0da01d400756917825d1e2fd528
+  subpackages:
+  - font
+  - math/f64
+  - math/fixed
+- name: golang.org/x/mobile
+  version: 920b52be609a19c3c8f59d3d4205cfa1046d5f0a
+  subpackages:
+  - event/key
+  - event/lifecycle
+  - event/mouse
+  - event/paint
+  - event/size
+  - geom
+  - gl
+- name: golang.org/x/sys
+  version: af653ce8b74f808d092db8ca9741fbb63d2a469d
+  subpackages:
+  - windows
+testImports: []
