@@ -52,6 +52,10 @@ func (w *Window) DrawMMenuFrame() {
 			imgOnMouse.SetRGBA(x, y, color.RGBA{uint8(r), uint8(g), uint8(b), 0x80})
 		}
 	}
+
+	tl.DrawLine(w.Win, cn.ColGray55, 0, 50, w.W-1, 50, 0)
+	tl.DrawLine(w.Win, cn.ColGray33, 0, 51, w.W-1, 51, 0)
+	tl.DrawLine(w.Win, cn.ColGray33, 0, 52, w.W-1, 52, 0)
 }
 
 func (w *Window) DrawMMenuCont(dx int, dy int) {

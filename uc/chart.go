@@ -22,7 +22,7 @@ var (
 	Fc        *Frame //チャート表示枠
 	Fcr       *Frame //チャート実表示枠
 	Fvr       *Frame //出来高表示枠
-	cFntS     = 8
+	cFntS     = 10
 	prcRngTbl = []int{10, 20, 50, 100, 250, 500, 1000, 2500, 5000, 10000, 25000, 50000, 100000, 250000, 500000, 1000000, 2500000, 5000000, 10000000, 25000000, 50000000, 100000000}
 	prcTbl    = []dayPrice{
 		{"2018/10/4", 11205, 11415, 11050, 11200, 8303300, 11200},
@@ -136,9 +136,11 @@ func (w *Window) DrawChartCont(dx int, dy int) {
 		return
 	}
 
-	face := truetype.NewFace(App.Font, &truetype.Options{Size: float64(cFntS), DPI: dpi, Hinting: font.HintingNone}) //font.HintingFull
+	faceTitle := truetype.NewFace(App.Font, &truetype.Options{Size: float64(14.0), DPI: dpi, Hinting: font.HintingNone}) //font.HintingFull
 
-	tl.DrawText(w.Win, cn.ColWhite, face, dx+5, dy+10, fmt.Sprintf("9984 ソフトバンク"))
+	tl.DrawText(w.Win, cn.ColWhite, faceTitle, dx+5, dy+14, fmt.Sprintf("9984 ソフトバンク"))
+
+	face := truetype.NewFace(App.Font, &truetype.Options{Size: float64(cFntS), DPI: dpi, Hinting: font.HintingNone}) //font.HintingFull
 
 	//TODO 25, 75日線描画
 
@@ -192,8 +194,8 @@ func (w *Window) drawChartBarCont(dx int, dy int, face font.Face) { //チャー�
 		} else if i == prcGridNum-1 {
 			y += int(fontS) / 3
 		}
-		tl.DrawText(w.Win, cn.ColWhite, face, dx+4, y, fmt.Sprintf("%8d", vol))
-		tl.DrawText(w.Win, cn.ColWhite, face, dx+Fcr.ex+3, y, fmt.Sprintf("%-8d", vol))
+		tl.DrawText(w.Win, cn.ColWhite, face, dx+2, y, fmt.Sprintf("%7d", vol))
+		tl.DrawText(w.Win, cn.ColWhite, face, dx+Fcr.ex+3, y, fmt.Sprintf("%-7d", vol))
 	}
 
 	lastX := 10000
@@ -242,6 +244,12 @@ func (w *Window) drawChartBarCont(dx int, dy int, face font.Face) { //チャー�
 				}
 			}
 		}
+	}
+
+	mx, my := App.Ms.Px, App.Ms.Py
+	if dx+Fcr.sx < mx && mx < dx+Fcr.ex && dy+Fcr.sy < my && my < dy+Fcr.ey { //カーソル位置線
+		tl.DrawLine(w.Win, cn.ColWhite, mx, dy+Fcr.sy, mx, dy+Fcr.ey, 0) //X軸
+		tl.DrawLine(w.Win, cn.ColWhite, dx+Fcr.sx, my, dx+Fcr.ex, my, 0) //Y軸
 	}
 }
 
