@@ -15,6 +15,11 @@ import (
 	"golang.org/x/image/math/fixed"
 )
 
+func NewRect(x0, y0, x1, y1 int) *image.Rectangle {
+	r := image.Rect(x0, y0, x1, y1)
+	return &r
+}
+
 func DrawText(m *image.RGBA, fcol color.RGBA, fnt font.Face, x int, y int, text string) {
 	//	draw.Draw(m, m.Bounds(), image.White, ZP, draw.Src)	//文字の背景塗りつぶし（ここではやらない）
 	//	m.SetRGBA(x, y, crossColor)

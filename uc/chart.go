@@ -19,12 +19,19 @@ const (
 )
 
 var (
-	Fc        Frame //チャート表示枠
-	Fcr       Frame //チャート実表示枠
-	Fvr       Frame //出来高表示枠
+	Fc        *Frame //チャート表示枠
+	Fcr       *Frame //チャート実表示枠
+	Fvr       *Frame //出来高表示枠
 	cFntS     = 8
 	prcRngTbl = []int{10, 20, 50, 100, 250, 500, 1000, 2500, 5000, 10000, 25000, 50000, 100000, 250000, 500000, 1000000, 2500000, 5000000, 10000000, 25000000, 50000000, 100000000}
 	prcTbl    = []dayPrice{
+		{"2018/10/4", 11205, 11415, 11050, 11200, 8303300, 11200},
+		{"2018/10/3", 11250, 11255, 10965, 11055, 4302800, 11055},
+		{"2018/10/2", 11455, 11465, 11170, 11190, 6350500, 11190},
+		{"2018/10/1", 11380, 11500, 11270, 11435, 5436000, 11435},
+		{"2018/9/28", 11250, 11500, 11150, 11470, 8708300, 11470},
+		{"2018/9/27", 11115, 11185, 10960, 10960, 4412700, 10960},
+		{"2018/9/26", 10955, 11220, 10935, 11065, 5386000, 11065},
 		{"2018/9/25", 11015, 11140, 10905, 10925, 4891000, 10925},
 		{"2018/9/21", 11100, 11250, 10935, 11045, 8766600, 11045},
 		{"2018/9/20", 11105, 11115, 10815, 10880, 4872500, 10880},
@@ -45,6 +52,40 @@ var (
 		{"2018/8/29", 10290, 10315, 10070, 10100, 4723700, 10100},
 		{"2018/8/28", 10295, 10365, 10230, 10235, 4728400, 10235},
 		{"2018/8/27", 10100, 10280, 10090, 10175, 4748600, 10175},
+		{"2018/8/24", 9867, 10100, 9770, 10100, 6056900, 10100},
+		{"2018/8/23", 9820, 9969, 9809, 9854, 4318200, 9854},
+		{"2018/8/22", 9530, 10015, 9521, 9950, 8470000, 9950},
+		{"2018/8/21", 10000, 10015, 9770, 9821, 6552900, 9821},
+		{"2018/8/20", 10080, 10115, 9970, 9984, 3725500, 9984},
+		{"2018/8/17", 10080, 10150, 9985, 10020, 3585100, 10020},
+		{"2018/8/16", 9944, 10125, 9888, 9985, 7882400, 9985},
+		{"2018/8/15", 10375, 10385, 10150, 10170, 4067100, 10170},
+		{"2018/8/14", 10180, 10470, 10175, 10445, 6262200, 10445},
+		{"2018/8/13", 9940, 10155, 9921, 10070, 5479800, 10070},
+		{"2018/8/10", 10445, 10560, 10050, 10120, 6477700, 10120},
+		{"2018/8/9", 10305, 10540, 10275, 10490, 6571200, 10490},
+		{"2018/8/8", 10190, 10600, 10160, 10530, 16308700, 10530},
+		{"2018/8/7", 9930, 10105, 9842, 10050, 17130200, 10050},
+		{"2018/8/6", 9275, 9445, 9252, 9433, 4565800, 9433},
+		{"2018/8/3", 9300, 9329, 9193, 9232, 4581200, 9232},
+		{"2018/8/2", 9336, 9353, 9191, 9235, 4564300, 9235},
+		{"2018/8/1", 9390, 9400, 9292, 9367, 4624600, 9367},
+		{"2018/7/31", 9200, 9360, 9135, 9260, 8316000, 9260},
+		{"2018/7/30", 9235, 9312, 9183, 9276, 4693600, 9276},
+		{"2018/7/27", 9250, 9385, 9221, 9385, 4397300, 9385},
+		{"2018/7/26", 9451, 9489, 9252, 9254, 8373100, 9254},
+		{"2018/7/25", 9597, 9645, 9555, 9570, 3757200, 9570},
+		{"2018/7/24", 9637, 9739, 9547, 9598, 5657500, 9598},
+		{"2018/7/23", 9722, 9779, 9537, 9571, 8477900, 9571},
+		{"2018/7/20", 9700, 9888, 9601, 9857, 12345400, 9857},
+		{"2018/7/19", 9600, 9829, 9518, 9758, 9793000, 9758},
+		{"2018/7/18", 9730, 9800, 9601, 9650, 7221100, 9650},
+		{"2018/7/17", 9720, 9909, 9602, 9604, 13011900, 9604},
+		{"2018/7/13", 9500, 9750, 9433, 9722, 15999500, 9722},
+		{"2018/7/12", 9020, 9413, 9015, 9376, 20449000, 9376},
+		{"2018/7/11", 8725, 8831, 8698, 8812, 6911200, 8812},
+		{"2018/7/10", 8728, 8820, 8716, 8758, 8446300, 8758},
+		{"2018/7/9", 8351, 8585, 8350, 8578, 7068900, 8578},
 	}
 	mapVolDivNum = map[int]int{
 		1:  2,
@@ -72,22 +113,17 @@ type dayPrice struct {
 
 func (w *Window) DrawChartFrame() {
 
-	Fc = Frame{sx: w.Fd.sx + 35, sy: w.Fd.sy + 5, ex: w.Fd.ex - 35, ey: w.Fd.ey - int(cFntS) - 2} //チャート＋出来高 表示領域
-	Fc.w, Fc.h = Fc.ex-Fc.sx, Fc.ey-Fc.sy
-	//	tl.DrawFrame(w.Win, cn.ColDarkGray, Fc.sx, Fc.sy, Fc.ex, Fc.ey, 0) //実チャート枠描画
-
-	Fcr = Frame{sx: Fc.sx + 1, sy: Fc.sy + 10, ex: Fc.ex - 1, ey: Fc.sy + Fc.h*75/100} //チャート 実表示領域
-	Fcr.w, Fcr.h = Fcr.ex-Fcr.sx, Fcr.ey-Fcr.sy
+	Fc = NewFrame(w.Fd.sx+35, w.Fd.sy+5, w.Fd.ex-35, w.Fd.ey-int(cFntS)-2) //チャートウインドウ表示領域
+	Fcr = NewFrame(Fc.sx+1, Fc.sy+10, Fc.ex-1, Fc.sy+Fc.h*75/100)          //チャート 実表示領域(チャートウインドウの75%のサイズ)
 	tl.DrawFrame(w.Win, cn.ColDarkGray, Fcr.sx, Fcr.sy, Fcr.ex, Fcr.ey, 0) //実チャート枠描画
 	for y := Fcr.sy + 1; y < Fcr.ey-1; y++ {                               //背景色
-		tl.DrawLine(w.Win, cn.ColHHDarkGray, Fcr.sx+1, y, Fcr.ex-1, y, 0)
+		tl.DrawLine(w.Win, cn.ColGray11, Fcr.sx+1, y, Fcr.ex-1, y, 0)
 	}
 
-	Fvr = Frame{sx: Fc.sx + 1, sy: Fc.sy + Fc.h*75/100 + 5, ex: Fc.ex - 1, ey: Fc.ey} //出来高 実表示領域
-	Fvr.w, Fvr.h = Fvr.ex-Fvr.sx, Fvr.ey-Fvr.sy
+	Fvr = NewFrame(Fc.sx+1, Fc.sy+Fc.h*75/100+5, Fc.ex-1, Fc.ey)           //出来高 実表示領域(チャートウインドウの25% -5のサイズ)
 	tl.DrawFrame(w.Win, cn.ColDarkGray, Fvr.sx, Fvr.sy, Fvr.ex, Fvr.ey, 0) //出来高枠描画描画
 	for y := Fvr.sy + 1; y < Fvr.ey-1; y++ {                               //背景色
-		tl.DrawLine(w.Win, cn.ColHHDarkGray, Fvr.sx+1, y, Fvr.ex-1, y, 0)
+		tl.DrawLine(w.Win, cn.ColGray11, Fvr.sx+1, y, Fvr.ex-1, y, 0)
 	}
 }
 
@@ -103,6 +139,14 @@ func (w *Window) DrawChartCont(dx int, dy int) {
 	face := truetype.NewFace(App.Font, &truetype.Options{Size: float64(cFntS), DPI: dpi, Hinting: font.HintingNone}) //font.HintingFull
 
 	tl.DrawText(w.Win, cn.ColWhite, face, dx+5, dy+10, fmt.Sprintf("9984 ソフトバンク"))
+
+	//TODO 25, 75日線描画
+
+	w.drawChartBarCont(dx, dy, face) //チャート
+	w.drawVolumeCont(dx, dy, face)   //出来高
+}
+
+func (w *Window) drawChartBarCont(dx int, dy int, face font.Face) { //チャート
 
 	maxPrc, minPrc := 0.0, 0.0 //高値、安値
 	for i, ch := range prcTbl {
@@ -137,39 +181,46 @@ func (w *Window) DrawChartCont(dx int, dy int) {
 
 	for i := 1; i < (prcGridNum - 1); i++ { //チャートグリッド線描画X
 		y := dy + Fcr.ey - (Fcr.h/(prcGridNum-1))*i
-		tl.DrawLine(w.Win, cn.ColDarkGray, dx+Fcr.sx, y, dx+Fcr.ex, y, chtLineGrid)
+		tl.DrawLine(w.Win, cn.ColGray66, dx+Fcr.sx, y, dx+Fcr.ex, y, chtLineGrid)
 	}
 
-	for i := 0; i < prcGridNum; i++ { //チャート指標値段描画X
-		tl.DrawText(w.Win, cn.ColWhite, face, dx+1, dy+Fcr.ey-(Fcr.h/(prcGridNum-1))*i+4, fmt.Sprintf("%8d", minCPrc+prcW*i))
-		tl.DrawText(w.Win, cn.ColWhite, face, dx+Fcr.ex+3, dy+Fcr.ey-(Fcr.h/(prcGridNum-1))*i+4, fmt.Sprintf("%-8d", minCPrc+prcW*i))
+	for i := 0; i < prcGridNum; i++ { //Y軸チャート指標値段描画
+		y := dy + Fcr.ey - (Fcr.h/(prcGridNum-1))*i + 4
+		vol := minCPrc + prcW*i
+		if i == 0 { //位置調整
+			y -= int(fontS) / 3
+		} else if i == prcGridNum-1 {
+			y += int(fontS) / 3
+		}
+		tl.DrawText(w.Win, cn.ColWhite, face, dx+4, y, fmt.Sprintf("%8d", vol))
+		tl.DrawText(w.Win, cn.ColWhite, face, dx+Fcr.ex+3, y, fmt.Sprintf("%-8d", vol))
 	}
 
 	lastX := 10000
-	for i, ch := range prcTbl { //チャート指標描画Y（日時）
-		centerX := Fcr.ex - Fcr.w*(i+1)/(len(prcTbl)+1) - 5
-		if i != 0 && i != len(prcTbl)-1 && lastX < centerX+minCPrcInterval {
+	for i, ch := range prcTbl { //X軸チャート指標描画（日時）＆指標線
+		centerX := Fcr.ex - Fcr.w*(i+1)/(len(prcTbl)+1)
+		if i != 0 && lastX < centerX+minCPrcInterval {
 			continue
 		}
 		lastX = centerX
-		tl.DrawText(w.Win, cn.ColWhite, face, dx+centerX, dy+Fc.ey+cFntS, fmt.Sprintf("%s", ch.date[5:]))
+		tl.DrawText(w.Win, cn.ColWhite, face, dx+centerX-5, dy+Fc.ey+cFntS, fmt.Sprintf("%s", ch.date[5:])) //日時
+		tl.DrawLine(w.Win, cn.ColGray66, dx+centerX, dy+Fcr.sy+1, dx+centerX, dy+Fcr.ey-1, 4)               //指標線
 	}
-
-	//TODO 25, 75日線描画
 
 	//ローソク足描画
 	for i, ch := range prcTbl {
 
-		maxY := dy + Fcr.ey - int((ch.maxp-float64(minCPrc))*float64(Fcr.h)/float64(prcRng))
-		minY := dy + Fcr.ey - int((ch.minp-float64(minCPrc))*float64(Fcr.h)/float64(prcRng))
+		base := float64(Fcr.h) / float64(prcRng)
+		maxY := dy + Fcr.ey - int((ch.maxp-float64(minCPrc))*base)
+		minY := dy + Fcr.ey - int((ch.minp-float64(minCPrc))*base)
 
 		var startY, endY int
 		if ch.startp > ch.endp {
-			startY = dy + Fcr.ey - int((ch.startp-float64(minCPrc))*float64(Fcr.h)/float64(prcRng))
-			endY = dy + Fcr.ey - int((ch.endp-float64(minCPrc))*float64(Fcr.h)/float64(prcRng))
+			startY = dy + Fcr.ey - int((ch.startp-float64(minCPrc))*base)
+			endY = dy + Fcr.ey - int((ch.endp-float64(minCPrc))*base)
 		} else {
-			startY = dy + Fcr.ey - int((ch.endp-float64(minCPrc))*float64(Fcr.h)/float64(prcRng))
-			endY = dy + Fcr.ey - int((ch.startp-float64(minCPrc))*float64(Fcr.h)/float64(prcRng))
+			startY = dy + Fcr.ey - int((ch.endp-float64(minCPrc))*base)
+			endY = dy + Fcr.ey - int((ch.startp-float64(minCPrc))*base)
 		}
 
 		gain := ch.startp < ch.endp
@@ -192,9 +243,6 @@ func (w *Window) DrawChartCont(dx int, dy int) {
 			}
 		}
 	}
-
-	w.drawVolumeCont(dx, dy, face) //出来高
-
 }
 
 // 出来高
@@ -220,12 +268,52 @@ func (w *Window) drawVolumeCont(dx int, dy int, face font.Face) {
 		tl.DrawLine(w.Win, cn.ColDarkGray, dx+Fvr.sx, y, dx+Fvr.ex, y, volLineGridW)
 	}
 
-	tl.DrawText(w.Win, cn.ColWhite, face, dx+1, dy+Fvr.ey+4, fmt.Sprintf("%9d", 0))
-	for i := 1; i < volGridNum; i++ { //チャート指標値段描画X
-		tl.DrawText(w.Win, cn.ColWhite, face, dx+1, dy+Fvr.ey-(Fvr.h/(volGridNum-1))*i+4, fmt.Sprintf("%3d", maxDispVol/(volGridNum-1)*(i)/int(math.Pow10(slen-2))))
-		tl.DrawText(w.Win, cn.ColWhite, face, dx+Fvr.ex+3, dy+Fvr.ey-(Fvr.h/(prcGridNum-1))*i+4, fmt.Sprintf("%-3d", maxDispVol/(volGridNum-1)*(i)/int(math.Pow10(slen-2))))
+	//	tl.DrawText(w.Win, cn.ColWhite, face, dx+Fvr.sx-int(fontS)-1, dy+Fvr.ey, fmt.Sprintf("%9d", 0))
+	for i := 0; i < volGridNum; i++ { //出来高指標描画X
+		y := dy + Fvr.ey - (Fvr.h/(volGridNum-1))*i + 4
+		if i == 0 { //位置調整
+			y -= int(fontS) / 3
+		} else if i == volGridNum-1 {
+			y += int(fontS) / 3
+		}
+		vol := maxDispVol / (volGridNum - 1) * (i) / int(math.Pow10(slen-2))
+		tl.DrawText(w.Win, cn.ColWhite, face, dx+Fvr.sx-int(fontS)-2, y, fmt.Sprintf("%3d", vol))
+		tl.DrawText(w.Win, cn.ColWhite, face, dx+Fvr.ex+3, y, fmt.Sprintf("%-3d", vol))
 	}
 	tl.DrawText(w.Win, cn.ColWhite, face, dx+1, dy+Fvr.ey+8, fmt.Sprintf("(x%d)", int(math.Pow10(slen-1))))
+
+	lastX := 10000
+	for i, _ := range prcTbl { //出来高指標線
+		centerX := dx + Fvr.ex - Fvr.w*(i+1)/(len(prcTbl)+1)
+		if i != 0 && lastX < centerX+minCPrcInterval {
+			continue
+		}
+		lastX = centerX
+		tl.DrawLine(w.Win, cn.ColGray66, dx+centerX, dy+Fvr.sy+1, dx+centerX, dy+Fvr.ey-1, 4) //指標線
+	}
+
+	//出来高線描画
+	for i, ch := range prcTbl {
+		volY := dy + Fvr.ey - (ch.quantity * (Fvr.h - 2) / maxVol)
+		vWidth := getCandleWidth(len(prcTbl))
+
+		centerX := dx + Fvr.ex - Fvr.w*(i+1)/(len(prcTbl)+1) //中央値X
+		for x := centerX - vWidth; x <= centerX+vWidth; x++ {
+			/*
+				wdh := vWidth*2 + 1
+						r, g, b, a := cn.ColDarkBlue.RGBA()
+							a = uint32(float64(a) * float64(1-float64(x-(centerX-vWidth))/float64(wdh))) //グラデーション（ちょっとうまくいかない）
+							tl.DrawLine(w.Win, color.RGBA{uint8(r), uint8(g), uint8(b), uint8(a)}, x, dy+Fvr.ey-2, x, volY, 0)
+							if a > 255 {
+							a = 255
+							}else if a <0 {
+							 a = 0
+							}
+						}
+			*/
+			tl.DrawLine(w.Win, cn.ColDarkBlue, x, dy+Fvr.ey-2, x, volY, 0)
+		}
+	}
 
 }
 

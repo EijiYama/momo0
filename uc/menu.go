@@ -15,7 +15,7 @@ var (
 		cn.MENU_CHART:    {dispRc: image.Rect(110, 0, 160, 50), imgRc: image.Rect(0, 0, 50, 50), imgOn: tl.LoadImg("btn_chart_off.jpg"), imgOff: tl.LoadImg("btn_chart_on.jpg"), pressed: false},
 		cn.MENU_MV_ASSET: {dispRc: image.Rect(170, 0, 220, 50), imgRc: image.Rect(0, 0, 50, 50), imgOn: tl.LoadImg("btn_mv_asset_off.jpg"), imgOff: tl.LoadImg("btn_mv_asset_on.jpg"), pressed: false},
 		cn.MENU_NEWS:     {dispRc: image.Rect(230, 0, 280, 50), imgRc: image.Rect(0, 0, 50, 50), imgOn: tl.LoadImg("btn_news_off.jpg"), imgOff: tl.LoadImg("btn_news_on.jpg"), pressed: false},
-		cn.MENU_TOSHI:    {dispRc: image.Rect(290, 0, 340, 50), imgRc: image.Rect(0, 0, 50, 50), imgOn: tl.LoadImg("btn_toshi_off.jpg"), imgOff: tl.LoadImg("btn_toshi_on.jpg"), pressed: false},
+		cn.MENU_INVEST:   {dispRc: image.Rect(290, 0, 340, 50), imgRc: image.Rect(0, 0, 50, 50), imgOn: tl.LoadImg("btn_toshi_off.jpg"), imgOff: tl.LoadImg("btn_toshi_on.jpg"), pressed: false},
 		cn.MENU_ACCOUNT:  {dispRc: image.Rect(350, 0, 400, 50), imgRc: image.Rect(0, 0, 50, 50), imgOn: tl.LoadImg("btn_account_off.jpg"), imgOff: tl.LoadImg("btn_account_on.jpg"), pressed: false},
 		cn.MENU_NOTICE:   {dispRc: image.Rect(410, 0, 460, 50), imgRc: image.Rect(0, 0, 50, 50), imgOn: tl.LoadImg("btn_notice_off.jpg"), imgOff: tl.LoadImg("btn_notice_on.jpg"), pressed: false},
 	}
@@ -46,10 +46,10 @@ func (w *Window) DrawMMenuFrame() {
 		for y := 0; y < imgSel.Bounds().Dy(); y++ {
 
 			r, g, b, _ := imgSel.At(x, y).RGBA()
-			imgSel.SetRGBA(x, y, color.RGBA{uint8(r), uint8(g), uint8(b), 0xa0})
+			imgSel.SetRGBA(x, y, color.RGBA{uint8(r), uint8(g), uint8(b), 0x80})
 
 			r, g, b, _ = imgOnMouse.At(x, y).RGBA()
-			imgOnMouse.SetRGBA(x, y, color.RGBA{uint8(r), uint8(g), uint8(b), 0xa0})
+			imgOnMouse.SetRGBA(x, y, color.RGBA{uint8(r), uint8(g), uint8(b), 0x80})
 		}
 	}
 }
