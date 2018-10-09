@@ -2,6 +2,7 @@ package uc
 
 import (
 	"fmt"
+	"image/color"
 	"math"
 
 	"github.com/golang/freetype/truetype"
@@ -137,15 +138,13 @@ func (w *Window) DrawChartCont(dx int, dy int) {
 	}
 
 	faceTitle := truetype.NewFace(App.Font, &truetype.Options{Size: float64(14.0), DPI: dpi, Hinting: font.HintingNone}) //font.HintingFull
-
 	tl.DrawText(w.Win, cn.ColWhite, faceTitle, dx+5, dy+14, fmt.Sprintf("9984 ソフトバンク"))
-
-	face := truetype.NewFace(App.Font, &truetype.Options{Size: float64(cFntS), DPI: dpi, Hinting: font.HintingNone}) //font.HintingFull
 
 	//TODO 25, 75日線描画
 
-	w.drawChartBarCont(dx, dy, face) //チャート
-	w.drawVolumeCont(dx, dy, face)   //出来高
+	face := truetype.NewFace(App.Font, &truetype.Options{Size: float64(cFntS), DPI: dpi, Hinting: font.HintingNone}) //font.HintingFull
+	w.drawChartBarCont(dx, dy, face)                                                                                 //チャート
+	w.drawVolumeCont(dx, dy, face)                                                                                   //出来高
 }
 
 func (w *Window) drawChartBarCont(dx int, dy int, face font.Face) { //チャート
@@ -189,7 +188,7 @@ func (w *Window) drawChartBarCont(dx int, dy int, face font.Face) { //チャー�
 	for i := 0; i < prcGridNum; i++ { //Y軸チャート指標値段描画
 		y := dy + Fcr.ey - (Fcr.h/(prcGridNum-1))*i + 4
 		vol := minCPrc + prcW*i
-		if i == 0 { //位置調整
+		if i == 0 { //位置調整（最小値と最大値は中に寄せる）
 			y -= int(fontS) / 3
 		} else if i == prcGridNum-1 {
 			y += int(fontS) / 3
@@ -210,9 +209,9 @@ func (w *Window) drawChartBarCont(dx int, dy int, face font.Face) { //チャー�
 	}
 
 	//ローソク足描画
+	base := float64(Fcr.h) / float64(prcRng)
 	for i, ch := range prcTbl {
 
-		base := float64(Fcr.h) / float64(prcRng)
 		maxY := dy + Fcr.ey - int((ch.maxp-float64(minCPrc))*base)
 		minY := dy + Fcr.ey - int((ch.minp-float64(minCPrc))*base)
 
@@ -302,27 +301,20 @@ func (w *Window) drawVolumeCont(dx int, dy int, face font.Face) {
 
 	//出来高線描画
 	for i, ch := range prcTbl {
-		volY := dy + Fvr.ey - (ch.quantity * (Fvr.h - 2) / maxVol)
+		volY := dy + Fvr.ey - (ch.quantity * (Fvr.h - 2) / maxDispVol)
 		vWidth := getCandleWidth(len(prcTbl))
-
+		wdh := vWidth*2 + 1
 		centerX := dx + Fvr.ex - Fvr.w*(i+1)/(len(prcTbl)+1) //中央値X
 		for x := centerX - vWidth; x <= centerX+vWidth; x++ {
-			/*
-				wdh := vWidth*2 + 1
-						r, g, b, a := cn.ColDarkBlue.RGBA()
-							a = uint32(float64(a) * float64(1-float64(x-(centerX-vWidth))/float64(wdh))) //グラデーション（ちょっとうまくいかない）
-							tl.DrawLine(w.Win, color.RGBA{uint8(r), uint8(g), uint8(b), uint8(a)}, x, dy+Fvr.ey-2, x, volY, 0)
-							if a > 255 {
-							a = 255
-							}else if a <0 {
-							 a = 0
-							}
-						}
-			*/
-			tl.DrawLine(w.Win, cn.ColDarkBlue, x, dy+Fvr.ey-2, x, volY, 0)
+
+			r, g, b, a := cn.ColSkyBlue.RGBA()
+			r8 := uint8(float64(uint8(r)) * float64(x-centerX+vWidth) / float64(wdh)) //グラデーション（ちょっとうまくいかない）
+			g8 := uint8(float64(uint8(g)) * float64(x-centerX+vWidth) / float64(wdh)) //グラデーション（ちょっとうまくいかない）
+			b8 := uint8(float64(uint8(b)) * float64(x-centerX+vWidth) / float64(wdh)) //グラデーション（ちょっとうまくいかない）
+			//			fmt.Println("dekidaka r, g, b, wdh :", r, g, b, r8, g8, b8, wdh, float64(x-centerX+vWidth)/float64(wdh))
+			tl.DrawLine(w.Win, color.RGBA{uint8(r8), uint8(g8), uint8(b8), uint8(a)}, x, dy+Fvr.ey-2, x, volY, 0)
 		}
 	}
-
 }
 
 func getCandleWidth(pt int) int { //ローソク足の左右に加算する幅を計算
